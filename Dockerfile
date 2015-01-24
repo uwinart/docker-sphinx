@@ -20,7 +20,11 @@ RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ wheezy-pgdg main" >> /etc
 
 RUN mkdir -p /data/sphinx && \
   mkdir -p /var/run/sphinxsearch && \
-  mkdir -p /var/log/sphinxsearch
-#   chown sphinx:sphinx /data/sphinx
+  mkdir -p /var/log/sphinxsearch && \
+  echo "0       */1    *       *       *       root    /indexer.sh" | tee -a /etc/crontab
+
+ADD indexer.sh /indexer.sh
+
+VOLUME ["/data/sphinx", "/var/log/sphinxsearch", "/var/run/sphinxsearch"]
 
 EXPOSE 9312
