@@ -19,8 +19,7 @@ RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ wheezy-pgdg main" >> /etc
   cd sphinx-2.2.6-release && \
   ./configure --with-pgsql --without-mysql && \
   make install clean && \
-  apt-get clean && \
-  /etc/init.d/cron restart
+  apt-get clean
 
 RUN mkdir -p /data/sphinx && \
   mkdir -p /var/run/sphinxsearch && \
