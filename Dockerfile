@@ -19,6 +19,14 @@ RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ wheezy-pgdg main" >> /etc
   make install clean && \
   apt-get clean
 
+RUN cd /usr/local/share && \
+  mkdir -p sphinx/dicts && \
+  cd sphinx/dicts && \
+  sed -i -e "s/# lemmatizer_base\s*=.*/lemmatizer_base = \/usr\/local\/share\/sphinx\/dicts/g" /usr/local/etc/sphinx.conf.dist && \
+  wget http://sphinxsearch.com/files/dicts/ru.pak && \
+  wget http://sphinxsearch.com/files/dicts/en.pak && \
+  wget http://sphinxsearch.com/files/dicts/de.pak
+
 RUN mkdir -p /data/sphinx && \
   mkdir -p /var/run/sphinxsearch && \
   mkdir -p /var/log/sphinxsearch
