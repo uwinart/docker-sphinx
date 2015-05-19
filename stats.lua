@@ -11,8 +11,8 @@ box.cfg {
 require('console').listen('127.0.0.1:3312')
 
 -- Создаем дополнительные функции
-dofile('./assets/next_id.lua')
-dofile('./assets/utils.lua')
+dofile('/data/tarantool/assets/next_id.lua')
+dofile('/data/tarantool/assets/utils.lua')
 
 --[[ Создаем, если ранее не было создано пространство sessions
     1: id, 2: site_id, 3: user_hash, 4: user_id, 5: begin_date, 6: end_date,
