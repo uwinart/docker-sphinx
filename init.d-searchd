@@ -1,0 +1,42 @@
+#!/bin/bash
+#
+# sphinx:
+# Start the Sphinx search engine
+
+SPHINX_BINARY=/usr/local/bin/searchd
+INDEXER_BINARY=/usr/local/bin/indexer
+
+test -f $SPHINX_BINARY || exit 0
+test -f $INDEXER_BINARY || exit 0
+
+CONFIGS=(/data/www/*/current/configs/sphinx/*.conf)
+
+case "$1" in
+  start)
+    echo "Starting Sphinx"
+
+    for CONFIG in "${CONFIGS[@]}";
+    do
+      $INDEXER_BINARY --config $CONFIG --rotate --all
+      $SPHINX_BINARY --config $CONFIG
+    done;
+    ;;
+
+  stop)
+    echo "Stopping Sphinx"
+    for CONFIG in "${CONFIGS[@]}";
+    do
+      $SPHINX_BINARY --config $CONFIG --stopwait
+    done;
+    ;;
+
+  restart)
+    $0 stop
+    $0 start
+    ;;
+
+  *)
+    echo "Usage: /etc/init.d/$NAME {start|stop|restart}"
+    exit 1
+    ;;
+esac
